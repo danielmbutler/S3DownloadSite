@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <title>S3-Downloadsite</title>
+    </head>
+    <h1>S3-Downloadsite</h1>
+    <body>
+            <button type="button"  id="submitbutton"
+            onclick="return validateForm()">Get Files</button>
+      
+        <div>
+            <h2>List</h2>
+          <ul id ="list"></ul>
+        </div>    
+    </body>
+    <script>
+        function validateForm(){
+            var list = document.getElementById('list');
+        
+                $.ajax({
+                type: "GET",
+                url: "API",
+                // The key needs to match your method's input parameter (case-sensitive).
+                success: function(data){
+                    console.log(JSON.stringify({data}));
+                    var output = data.body;
+                    console.log(JSON.stringify({output}));
+                    output.forEach(myFunction);
+
+                    function myFunction(item, index) {
+                        var entry = document.createElement('li');
+                        const anchor = document.createElement('a');
+                        anchor.href = "Bucket" + item;
+                        anchor.innerText = item;
+                        entry.appendChild(anchor)
+                        list.appendChild(entry);
+                    }
+                    
+                    
+                
+                    
+                },
+                error: function(errMsg) {
+                    alert(errMsg);
+                    }
+            });
+        }
+        
+    </script>
+</html>
+
+
+
